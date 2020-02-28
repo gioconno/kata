@@ -1,6 +1,8 @@
 package com.rz.kata.sortodd;
 
 import java.util.Arrays;
+import java.util.PrimitiveIterator;
+import java.util.stream.IntStream;
 
 public class SortTheOdd {
 
@@ -9,6 +11,8 @@ public class SortTheOdd {
 
     public static int[] sortArray(int[] array) {
 
+        bestSolution(array);
+
         if (array.length == 0) return array;
 
         int[] oddArray = Arrays.stream(array)
@@ -16,15 +20,28 @@ public class SortTheOdd {
                 .sorted()
                 .toArray();
 
-        int oddIndex = 0;
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] % 2 != 0) {
-                array[i] = oddArray[oddIndex];
-                oddIndex++;
+        for (int index = 0, oddIndex = 0; index < array.length; index++) {
+            if (array[index] % 2 == 1) {
+                array[index] = oddArray[oddIndex++];
             }
         }
 
         return array;
     }
+
+    public static int[] bestSolution(int[] array) {
+
+        PrimitiveIterator.OfInt sortedOdds = IntStream
+                .of(array)
+                .filter(i -> i % 2 == 1)
+                .sorted()
+                .iterator();
+
+        return IntStream
+                .of(array)
+                .map(i -> i % 2 == 0 ? i : sortedOdds.nextInt())
+                .toArray();
+    }
+
 
 }
