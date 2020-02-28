@@ -3,6 +3,8 @@ package com.rz.kata.enough;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
 
 /*
  * Delete occurrences of an element if it occurs more than n times
@@ -31,6 +33,14 @@ public class EnoughIsEnough {
         }
 
         return filteredElements.stream().mapToInt(i -> i).toArray();
+    }
+
+    public static int[] deleteNthStream(int[] elements, int maxOccurrences) {
+        Map<Integer, Integer> occurrence = new HashMap<>();
+        return IntStream.of(elements)
+                .filter(motif -> occurrence.merge(motif, 1, Integer::sum) <= maxOccurrences)
+                .toArray();
+
     }
 
 
